@@ -66,6 +66,9 @@ TOP_APPS = int(env("TOP_APPS", "6"))
 # Optional pinned report version, e.g. "1_1". Leave unset to let Apple default.
 REPORT_VERSION = env("ASC_REPORT_VERSION")
 DRY_RUN = bool(env("DRY_RUN"))
+# Optional: scope to one or more apps by numeric Apple ID (comma-separated).
+# Unset = whole account.  e.g.  ASC_APP_ID=1234567890  or  1234567890,9876543210
+APP_FILTER = {x.strip() for x in (env("ASC_APP_ID", "") or "").split(",") if x.strip()}
 
 
 def load_private_key() -> str:
@@ -213,6 +216,9 @@ def collect(token: str):
             apple_id = (row.get("Apple Identifier") or "").strip()
             title = (row.get("Title") or "").strip()
 
+            if APP_FILTER and apple_id not in APP_FILTER:
+                continue  # scoped to specific app(s) via ASC_APP_ID
+
             if is_app_download(product_type):
                 day_downloads += units
 
@@ -279,6 +285,7 @@ def build_payload(by_date, app_totals, currency) -> dict:
         # Brand-new app or no sales yet: push zeros so the screen still renders.
         return {
             "merge_variables": {
+                "has_data": False,
                 "updated_at": "No data yet",
                 "downloads_day": 0,
                 "downloads_7d": 0,
@@ -319,6 +326,7 @@ def build_payload(by_date, app_totals, currency) -> dict:
     pretty_date = datetime.fromisoformat(latest).strftime("%b %-d, %Y")
     return {
         "merge_variables": {
+            "has_data": True,
             "updated_at": pretty_date,
             "downloads_day": dl_day,
             "downloads_7d": dl_7,

@@ -1,88 +1,55 @@
-{% comment %}
-  Full screen (TRMNL OG 800x480 / TRMNL X 1040x780).
-  Data comes from the webhook payload's merge_variables, available at the
-  top level here: {{ downloads_day }}, {{ apps }}, etc.
-{% endcomment %}
-
+{% comment %} Full screen (800x480 / 1040x780). {% endcomment %}
+{% if has_data %}
 <div class="layout layout--col gap--medium">
-
-  {% comment %} ---- Downloads ---- {% endcomment %}
   <div class="columns">
-    <div class="column">
-      <div class="item">
-        <div class="content">
-          <span class="value value--xxlarge">{{ downloads_day }}</span>
-          <span class="label">Downloads · {{ updated_at }}</span>
-        </div>
-      </div>
-    </div>
-    <div class="column">
-      <div class="item">
-        <div class="content">
-          <span class="value value--large">{{ downloads_7d }}</span>
-          <span class="label">Last 7 days</span>
-        </div>
-      </div>
-    </div>
-    <div class="column">
-      <div class="item">
-        <div class="content">
-          <span class="value value--large">{{ downloads_30d }}</span>
-          <span class="label">Last 30 days</span>
-        </div>
-      </div>
-    </div>
+    <div class="column"><div class="item"><div class="content">
+      <span class="value value--xxlarge">{{ downloads_day }}</span>
+      <span class="label">Downloads · {{ updated_at }}</span>
+    </div></div></div>
+    <div class="column"><div class="item"><div class="content">
+      <span class="value value--large">{{ downloads_7d }}</span>
+      <span class="label">Last 7 days</span>
+    </div></div></div>
+    <div class="column"><div class="item"><div class="content">
+      <span class="value value--large">{{ downloads_30d }}</span>
+      <span class="label">Last 30 days</span>
+    </div></div></div>
   </div>
-
-  {% comment %} ---- Proceeds ---- {% endcomment %}
   <div class="columns">
-    <div class="column">
-      <div class="item">
-        <div class="content">
-          <span class="value value--large">{{ currency }} {{ revenue_day }}</span>
-          <span class="label">Proceeds today</span>
-        </div>
-      </div>
-    </div>
-    <div class="column">
-      <div class="item">
-        <div class="content">
-          <span class="value">{{ currency }} {{ revenue_7d }}</span>
-          <span class="label">7-day proceeds</span>
-        </div>
-      </div>
-    </div>
-    <div class="column">
-      <div class="item">
-        <div class="content">
-          <span class="value">{{ currency }} {{ revenue_30d }}</span>
-          <span class="label">30-day proceeds</span>
-        </div>
-      </div>
-    </div>
+    <div class="column"><div class="item"><div class="content">
+      <span class="value value--large">{{ currency }} {{ revenue_day }}</span>
+      <span class="label">Proceeds today</span>
+    </div></div></div>
+    <div class="column"><div class="item"><div class="content">
+      <span class="value">{{ currency }} {{ revenue_7d }}</span>
+      <span class="label">7-day proceeds</span>
+    </div></div></div>
+    <div class="column"><div class="item"><div class="content">
+      <span class="value">{{ currency }} {{ revenue_30d }}</span>
+      <span class="label">30-day proceeds</span>
+    </div></div></div>
   </div>
-
-  {% comment %} ---- Per-app list ---- {% endcomment %}
   {% if apps and apps.size > 0 %}
-  <div class="columns">
-    <div class="column">
-      {% for app in apps %}
-      <div class="item">
-        <div class="meta"></div>
-        <div class="content">
-          <span class="title title--small">{{ app.name }}</span>
-          <span class="description">{{ app.downloads_30d }} dl · 30d&nbsp;&nbsp;·&nbsp;&nbsp;{{ currency }} {{ app.revenue_30d }}&nbsp;&nbsp;·&nbsp;&nbsp;★ {{ app.rating }} ({{ app.ratings_count }})</span>
-        </div>
-      </div>
-      {% endfor %}
-    </div>
-  </div>
+  <div class="columns"><div class="column">
+    {% for app in apps %}
+    <div class="item"><div class="meta"></div><div class="content">
+      <span class="title title--small">{{ app.name }}</span>
+      <span class="description">{{ app.downloads_30d }} dl · 30d&nbsp;&nbsp;·&nbsp;&nbsp;{{ currency }} {{ app.revenue_30d }}&nbsp;&nbsp;·&nbsp;&nbsp;★ {{ app.rating }} ({{ app.ratings_count }})</span>
+    </div></div>
+    {% endfor %}
+  </div></div>
   {% endif %}
-
 </div>
+{% else %}
+<div class="layout layout--col layout--center">
+  <span class="value value--large">Applytics</span>
+  <span class="label">Waiting for your first App Store data…</span>
+  <span class="label label--small">Updates daily</span>
+</div>
+{% endif %}
 
 <div class="title_bar">
   <img class="image" src="https://usetrmnl.com/images/plugins/trmnl--render.svg" />
   <span class="title">Applytics</span>
-  <span class="instance">{{ trmnl.plugin_settings.instance_name | default: "Downloads" }}</span>
+  <span class="instance">{{ updated_at }}</span>
 </div>

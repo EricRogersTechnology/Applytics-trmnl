@@ -1,9 +1,16 @@
-{% comment %} Quadrant (400x240 / 520x390) — compact. {% endcomment %}
+{% comment %} Quadrant (400x240 / 520x390). {% endcomment %}
+{% if has_data %}
 <div class="layout layout--col layout--center">
   <span class="value value--xxlarge">{{ downloads_day }}</span>
   <span class="label">Downloads · {{ updated_at }}</span>
   <span class="label label--small">{{ downloads_7d }} · 7d&nbsp;&nbsp;&nbsp;{{ downloads_30d }} · 30d</span>
 </div>
+{% else %}
+<div class="layout layout--col layout--center">
+  <span class="value value--large">Applytics</span>
+  <span class="label">Waiting for data…</span>
+</div>
+{% endif %}
 
 <div class="title_bar">
   <img class="image" src="https://usetrmnl.com/images/plugins/trmnl--render.svg" />

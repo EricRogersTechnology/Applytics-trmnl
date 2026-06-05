@@ -29,6 +29,7 @@ jobs:
           ASC_PRIVATE_KEY: ${{ secrets.ASC_PRIVATE_KEY }}
           ASC_VENDOR_NUMBER: ${{ secrets.ASC_VENDOR_NUMBER }}
           TRMNL_WEBHOOK_URL: ${{ secrets.TRMNL_WEBHOOK_URL }}
+          ASC_APP_ID: ${{ secrets.ASC_APP_ID }}        # optional: one app (numeric ID); blank = whole account
           # Optional overrides:
           # ASC_STOREFRONT: us
           # TOP_APPS: "6"

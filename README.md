@@ -87,6 +87,7 @@ gem install trmnl_preview && bin/trmnlp      # → http://localhost:4567
 | Change refresh times | `cron:` in `.github/workflows/trmnl.yml` (UTC) |
 | Redefine a "download" | `is_app_download()` in `scripts/fetch_appstore.py` |
 | Show more/fewer apps | `TOP_APPS` env var (default 6) |
+| Track one app (or a few) | `ASC_APP_ID` = the app's numeric App Store ID (from its App Store URL); unset = whole account |
 | Non-US ratings storefront | `ASC_STOREFRONT` env var (default `us`) |
 | Restyle the screen | `src/*.liquid` + the [TRMNL framework](https://trmnl.com/framework) |
 

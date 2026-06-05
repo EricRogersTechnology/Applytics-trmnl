@@ -11,6 +11,7 @@ variables:
     plugin_settings:
       instance_name: Downloads
 
+  has_data: true
   updated_at: "Jun 2, 2026"
   downloads_day: 42
   downloads_7d: 310
