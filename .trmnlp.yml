@@ -1,0 +1,32 @@
+# Config for the local preview server (trmnlp). Mock data lives under
+# `variables` so you can design the layouts without hitting Apple's API.
+# These keys mirror what scripts/fetch_appstore.py pushes via the webhook.
+---
+watch:
+  - src
+  - .trmnlp.yml
+
+variables:
+  trmnl:
+    plugin_settings:
+      instance_name: Downloads
+
+  updated_at: "Jun 2, 2026"
+  downloads_day: 42
+  downloads_7d: 310
+  downloads_30d: 1280
+  revenue_day: "12.50"
+  revenue_7d: "88.00"
+  revenue_30d: "350.00"
+  currency: "USD"
+  apps:
+    - name: "Your App"
+      downloads_30d: 900
+      revenue_30d: "300.00"
+      rating: "4.8"
+      ratings_count: 25
+    - name: "Another App"
+      downloads_30d: 380
+      revenue_30d: "50.00"
+      rating: "4.5"
+      ratings_count: 12

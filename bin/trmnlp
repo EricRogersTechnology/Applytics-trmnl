@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# Convenience wrapper for the TRMNL local preview server.
+#
+# Install once (Ruby gem):   gem install trmnl_preview
+# Then run:                  bin/trmnlp        -> http://localhost:4567
+#
+# Docker alternative (no Ruby needed):
+#   docker run --rm -p 4567:4567 -v "$PWD:/plugin" -w /plugin trmnl/trmnlp
+set -euo pipefail
+exec trmnlp serve "$@"

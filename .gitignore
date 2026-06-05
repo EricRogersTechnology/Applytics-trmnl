@@ -1,0 +1,16 @@
+# Secrets — NEVER commit your App Store Connect key or env file
+*.p8
+.env
+.env.local
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# OS
+.DS_Store
+
+# Local trmnlp overrides
+.trmnlp.local.yml

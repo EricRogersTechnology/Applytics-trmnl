@@ -1,0 +1,12 @@
+# Plugin metadata for the local preview server and for import/export.
+# The authoritative configuration is what you set in the TRMNL web UI when you
+# create the private plugin (that's where the webhook URL comes from).
+---
+name: Applytics
+# We push data to TRMNL, so the strategy is "webhook" (not polling).
+strategy: webhook
+# TRMNL re-renders from the last payload on its own cadence; the cron in
+# .github/workflows/trmnl.yml controls how often we refresh that payload.
+refresh_interval: 60
+dark_mode: "no"
+no_screen_padding: "no"

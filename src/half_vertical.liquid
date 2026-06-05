@@ -1,0 +1,33 @@
+{% comment %} Half vertical (400x480 / 520x780). {% endcomment %}
+<div class="layout layout--col gap--medium">
+  <div class="item">
+    <div class="content">
+      <span class="value value--xxlarge">{{ downloads_day }}</span>
+      <span class="label">Downloads · {{ updated_at }}</span>
+    </div>
+  </div>
+  <div class="item">
+    <div class="content">
+      <span class="value value--large">{{ downloads_7d }}</span>
+      <span class="label">Last 7 days</span>
+    </div>
+  </div>
+  <div class="item">
+    <div class="content">
+      <span class="value value--large">{{ downloads_30d }}</span>
+      <span class="label">Last 30 days</span>
+    </div>
+  </div>
+  <div class="item">
+    <div class="content">
+      <span class="value">{{ currency }} {{ revenue_30d }}</span>
+      <span class="label">Proceeds · 30d</span>
+    </div>
+  </div>
+</div>
+
+<div class="title_bar">
+  <img class="image" src="https://usetrmnl.com/images/plugins/trmnl--render.svg" />
+  <span class="title">Applytics</span>
+  <span class="instance">{{ updated_at }}</span>
+</div>
