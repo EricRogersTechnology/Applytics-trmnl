@@ -52,6 +52,8 @@ GitHub Actions (your fork · cron 2×/day)
 
 Copy the plugin's **Webhook URL**.
 
+Optional polish: set the plugin **Icon** to [`assets/icon.svg`](assets/icon.svg).
+
 ### 4 · Fork this repo + add Secrets
 **Fork** this repo, then in your fork: *Settings → Secrets and variables → Actions* → add each (names are case-sensitive):
 
