@@ -51,10 +51,10 @@ def env(name: str, default: str | None = None, required: bool = False) -> str | 
     return val
 
 
-KEY_ID = env("ASC_KEY_ID", required=True)
-ISSUER_ID = env("ASC_ISSUER_ID", required=True)
-VENDOR_NUMBER = env("ASC_VENDOR_NUMBER", required=True)
-WEBHOOK_URL = env("TRMNL_WEBHOOK_URL", required=True)
+KEY_ID = env("ASC_KEY_ID")
+ISSUER_ID = env("ASC_ISSUER_ID")
+VENDOR_NUMBER = env("ASC_VENDOR_NUMBER")
+WEBHOOK_URL = env("TRMNL_WEBHOOK_URL")
 
 # Storefront used for star ratings via the iTunes lookup API.
 STOREFRONT = env("ASC_STOREFRONT", "us")
@@ -366,6 +366,16 @@ def push(payload: dict) -> None:
 
 
 def main() -> None:
+    _req = {"ASC_KEY_ID": KEY_ID, "ASC_ISSUER_ID": ISSUER_ID,
+            "ASC_VENDOR_NUMBER": VENDOR_NUMBER, "TRMNL_WEBHOOK_URL": WEBHOOK_URL}
+    _missing = [k for k, v in _req.items() if not v]
+    if len(_missing) == len(_req):
+        print("No App Store Connect credentials configured \u2014 skipping. "
+              "Fork this repo and add the secrets (see README) to activate. "
+              "(Expected on the upstream template repo.)")
+        return
+    if _missing:
+        sys.exit("ERROR: missing required secret(s): " + ", ".join(_missing))
     private_key = load_private_key()
     token = generate_token(private_key)
     by_date, app_totals, currency = collect(token)
