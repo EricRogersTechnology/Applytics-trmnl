@@ -41,7 +41,11 @@ async function readConfig(request) {
   let c = {};
   if (request.method === 'POST') {
     const body = await request.text();
-    try { c = JSON.parse(body); } catch { c = Object.fromEntries(new URLSearchParams(body)); }
+    try { c = JSON.parse(body); }
+    catch {
+      try { c = JSON.parse(body.replace(/\r?\n/g, "\\n")); } // tolerate a multi-line .p8 inside the JSON body
+      catch { c = Object.fromEntries(new URLSearchParams(body)); }
+    }
   }
   for (const [k, v] of new URL(request.url).searchParams) if (c[k] === undefined) c[k] = v;
   const pick = (...ks) => ks.map((k) => c[k]).find((v) => v != null && v !== '');
