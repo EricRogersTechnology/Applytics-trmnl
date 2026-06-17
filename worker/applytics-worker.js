@@ -147,8 +147,19 @@ async function fetchAppStore(cfg) {
   const at = {};
   for (let i = 0; i < 30; i++) { const dd = ymd(end - i * day); const a = byDate[dd]; if (!a) continue;
     for (const [id, info] of Object.entries(a.apps)) { at[id] = at[id] || { name: info.name, downloads: 0, revenue: 0 }; if (info.name) at[id].name = info.name; at[id].downloads += info.downloads; at[id].revenue += info.revenue; } }
-  const apps = Object.values(at).sort((a, b) => b.downloads - a.downloads).slice(0, 6)
-    .map((a) => ({ name: a.name, downloads_30d: a.downloads, revenue_30d: money(a.revenue), rating: '—', ratings_count: 0 }));
+  const ranked = Object.entries(at).sort((a, b) => b[1].downloads - a[1].downloads).slice(0, 6);
+  const ratings = {};
+  await Promise.all(ranked.map(async ([id]) => {
+    try {
+      const j = await (await fetch(`https://itunes.apple.com/lookup?id=${id}&country=us`)).json();
+      if (j.resultCount) { const x = j.results[0];
+        ratings[id] = { r: (x.averageUserRating != null) ? Number(x.averageUserRating).toFixed(1) : "-", c: x.userRatingCount || 0 }; }
+    } catch (e) {}
+  }));
+  const apps = ranked.map(([id, a]) => ({
+    name: a.name, downloads_30d: a.downloads, revenue_30d: money(a.revenue),
+    rating: (ratings[id] && ratings[id].r) || "-", ratings_count: (ratings[id] && ratings[id].c) || 0,
+  }));
   return {
     has_data: true, updated_at: latest,
     downloads_day: t.dl, downloads_7d: w7.dl, downloads_30d: w30.dl,
