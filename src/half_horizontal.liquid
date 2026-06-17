@@ -1,17 +1,17 @@
 {% comment %} Half horizontal (800x240 / 1040x390). {% endcomment %}
 {% if has_data %}
 <div class="layout layout--col">
-  <div class="columns">
+  <div class="columns lg:gap--large portrait:gap--small">
     <div class="column"><div class="item"><div class="content">
-      <span class="value value--xlarge">{{ downloads_day }}</span>
+      <span class="value value--xlarge lg:value--xxlarge">{{ downloads_day }}</span>
       <span class="label">Downloads &middot; {{ updated_at }}</span>
     </div></div></div>
     <div class="column"><div class="item"><div class="content">
-      <span class="value value--large">{{ downloads_7d }}</span>
+      <span class="value value--large lg:value--xlarge">{{ downloads_7d }}</span>
       <span class="label">7 days</span>
     </div></div></div>
     <div class="column"><div class="item"><div class="content">
-      <span class="value value--large">{{ downloads_30d }}</span>
+      <span class="value value--large lg:value--xlarge">{{ downloads_30d }}</span>
       <span class="label">30 days</span>
     </div></div></div>
   </div>

@@ -1,20 +1,20 @@
 {% comment %} Half vertical (400x480 / 520x780). {% endcomment %}
 {% if has_data %}
-<div class="layout layout--col gap--medium">
+<div class="layout layout--col gap--medium lg:gap--large portrait:gap--large">
   <div class="item"><div class="content">
-    <span class="value value--xxlarge">{{ downloads_day }}</span>
+    <span class="value value--xxlarge lg:value--mega">{{ downloads_day }}</span>
     <span class="label">Downloads &middot; {{ updated_at }}</span>
   </div></div>
   <div class="item"><div class="content">
-    <span class="value value--large">{{ downloads_7d }}</span>
+    <span class="value value--large lg:value--xlarge">{{ downloads_7d }}</span>
     <span class="label">Last 7 days</span>
   </div></div>
   <div class="item"><div class="content">
-    <span class="value value--large">{{ downloads_30d }}</span>
+    <span class="value value--large lg:value--xlarge">{{ downloads_30d }}</span>
     <span class="label">Last 30 days</span>
   </div></div>
   <div class="item"><div class="content">
-    <span class="value">{{ currency }} {{ revenue_30d }}</span>
+    <span class="value lg:value--large">{{ currency }} {{ revenue_30d }}</span>
     <span class="label">Proceeds &middot; 30d</span>
   </div></div>
 </div>

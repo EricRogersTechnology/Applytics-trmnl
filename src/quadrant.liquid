@@ -1,9 +1,9 @@
 {% comment %} Quadrant (400x240 / 520x390). {% endcomment %}
 {% if has_data %}
-<div class="layout layout--col layout--center">
+<div class="layout layout--col layout--center lg:gap--small portrait:gap--small">
   <span class="value value--xxlarge">{{ downloads_day }}</span>
   <span class="label">Downloads &middot; {{ updated_at }}</span>
-  <span class="label label--small">{{ downloads_7d }} &middot; 7d&nbsp;&nbsp;&nbsp;{{ downloads_30d }} &middot; 30d</span>
+  <span class="label label--small lg:label">{{ downloads_7d }} &middot; 7d&nbsp;&nbsp;&nbsp;{{ downloads_30d }} &middot; 30d</span>
 </div>
 {% else %}
 <div class="layout layout--col layout--center">
