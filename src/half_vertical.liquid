@@ -3,7 +3,7 @@
 <div class="layout layout--col gap--medium">
   <div class="item"><div class="content">
     <span class="value value--xxlarge">{{ downloads_day }}</span>
-    <span class="label">Downloads · {{ updated_at }}</span>
+    <span class="label">Downloads &middot; {{ updated_at }}</span>
   </div></div>
   <div class="item"><div class="content">
     <span class="value value--large">{{ downloads_7d }}</span>
@@ -15,13 +15,13 @@
   </div></div>
   <div class="item"><div class="content">
     <span class="value">{{ currency }} {{ revenue_30d }}</span>
-    <span class="label">Proceeds · 30d</span>
+    <span class="label">Proceeds &middot; 30d</span>
   </div></div>
 </div>
 {% else %}
 <div class="layout layout--col layout--center">
   <span class="value value--large">Applytics</span>
-  <span class="label">Waiting for data…</span>
+  <span class="label">Waiting for data&hellip;</span>
 </div>
 {% endif %}
 

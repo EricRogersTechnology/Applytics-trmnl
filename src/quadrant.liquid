@@ -2,13 +2,13 @@
 {% if has_data %}
 <div class="layout layout--col layout--center">
   <span class="value value--xxlarge">{{ downloads_day }}</span>
-  <span class="label">Downloads · {{ updated_at }}</span>
-  <span class="label label--small">{{ downloads_7d }} · 7d&nbsp;&nbsp;&nbsp;{{ downloads_30d }} · 30d</span>
+  <span class="label">Downloads &middot; {{ updated_at }}</span>
+  <span class="label label--small">{{ downloads_7d }} &middot; 7d&nbsp;&nbsp;&nbsp;{{ downloads_30d }} &middot; 30d</span>
 </div>
 {% else %}
 <div class="layout layout--col layout--center">
   <span class="value value--large">Applytics</span>
-  <span class="label">Waiting for data…</span>
+  <span class="label">Waiting for data&hellip;</span>
 </div>
 {% endif %}
 
