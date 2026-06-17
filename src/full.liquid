@@ -34,7 +34,7 @@
     {% for app in apps %}
     <div class="item"><div class="meta"></div><div class="content">
       <span class="title title--small">{{ app.name }}</span>
-      <span class="description">{{ app.downloads_30d }} dl &middot; 30d&nbsp;&nbsp;&middot;&nbsp;&nbsp;{{ currency }} {{ app.revenue_30d }}&nbsp;&nbsp;&middot;&nbsp;&nbsp;&#9733; {{ app.rating }} ({{ app.ratings_count }})</span>
+      <span class="description">{{ app.downloads_30d }} dl &middot; 30d&nbsp;&nbsp;&middot;&nbsp;&nbsp;{{ currency }} {{ app.revenue_30d }}{% if app.ratings_count > 0 %}&nbsp;&nbsp;&middot;&nbsp;&nbsp;&#9733; {{ app.rating }} ({{ app.ratings_count }}){% endif %}</span>
     </div></div>
     {% endfor %}
   </div></div>
