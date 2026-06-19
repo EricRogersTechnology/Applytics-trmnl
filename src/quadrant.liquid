@@ -1,7 +1,11 @@
 {% comment %} Quadrant (400x240 / 520x390). {% endcomment %}
 {% if has_data %}
 <div class="layout layout--col layout--center lg:gap--small portrait:gap--small">
-  <span class="value value--xxlarge">{{ downloads_day }}</span>
+  <div class="flex flex--row" style="align-items: center; gap: 10px;">
+    {% if app_icon != blank %}<img class="image image-dither" src="{{ app_icon }}" style="width: 44px; height: 44px; border-radius: 10px; flex-shrink: 0;" />{% endif %}
+    <span class="title title--small">{{ app_name }}</span>
+  </div>
+  <span class="value value--xlarge lg:value--xxlarge">{{ downloads_day }}</span>
   <span class="label">Downloads &middot; {{ updated_at }}</span>
   <span class="label label--small lg:label">{{ downloads_7d }} &middot; 7d&nbsp;&nbsp;&nbsp;{{ downloads_30d }} &middot; 30d</span>
 </div>

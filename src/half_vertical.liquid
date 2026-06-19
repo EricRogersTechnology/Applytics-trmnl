@@ -1,10 +1,15 @@
 {% comment %} Half vertical (400x480 / 520x780). {% endcomment %}
 {% if has_data %}
+{% assign sym = currency | append: ' ' %}
+{% if currency == 'USD' %}{% assign sym = '$' %}{% endif %}
+{% if currency == 'EUR' %}{% assign sym = '&euro;' %}{% endif %}
+{% if currency == 'GBP' %}{% assign sym = '&pound;' %}{% endif %}
 <div class="layout layout--col gap--medium lg:gap--large portrait:gap--large">
-  <div class="flex flex--row" style="align-items: center; gap: 14px;">
-    {% if app_icon != blank %}<img class="image image-dither" src="{{ app_icon }}" style="width: 58px; height: 58px; border-radius: 13px; flex-shrink: 0;" />{% endif %}
-    <span class="title" style="font-size: 25px; line-height: 1.05;">{{ app_name }}</span>
+  <div class="flex flex--row" style="align-items: center; gap: 16px; width: 100%; justify-content: flex-start;">
+    {% if app_icon != blank %}<img class="image image-dither" src="{{ app_icon }}" style="width: 76px; height: 76px; border-radius: 17px; flex-shrink: 0;" />{% endif %}
+    <span class="title" style="font-size: 28px; line-height: 1.05;">{{ app_name }}</span>
   </div>
+  <div style="width: 100%; height: 1px; background: rgba(0,0,0,0.22);"></div>
   <div class="item"><div class="content">
     <span class="value value--xlarge lg:value--mega">{{ downloads_day }}</span>
     <span class="label">Downloads today</span>
@@ -18,7 +23,7 @@
     <span class="label">Last 30 days</span>
   </div></div>
   <div class="item"><div class="content">
-    <span class="value value--small lg:value">{{ currency }} {{ revenue_30d }}</span>
+    <span class="value value--small lg:value">{{ sym }}{{ revenue_30d }}</span>
     <span class="label">Proceeds &middot; 30d</span>
   </div></div>
 </div>
