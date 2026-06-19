@@ -1,10 +1,23 @@
 {% comment %} Full screen (800x480 / 1040x780). {% endcomment %}
 {% if has_data %}
 <div class="layout layout--col gap--medium lg:gap--large portrait:gap--large">
+
+  <div class="flex flex--row" style="align-items: center; gap: 20px;">
+    {% if app_icon != blank %}
+    <img class="image image-dither" src="{{ app_icon }}" style="width: 92px; height: 92px; border-radius: 20px; flex-shrink: 0;" />
+    {% endif %}
+    <div class="flex flex--col">
+      <span class="title" style="font-size: 40px; line-height: 1.05;">{{ app_name }}</span>
+      {% if app_ratings_count > 0 %}
+      <span class="label">&#9733; {{ app_rating }} &middot; {{ app_ratings_count }} ratings</span>
+      {% endif %}
+    </div>
+  </div>
+
   <div class="columns">
     <div class="column"><div class="item"><div class="content">
-      <span class="value value--xxlarge lg:value--mega">{{ downloads_day }}</span>
-      <span class="label">Downloads &middot; {{ updated_at }}</span>
+      <span class="value value--large lg:value--xlarge">{{ downloads_day }}</span>
+      <span class="label">Downloads today</span>
     </div></div></div>
     <div class="column"><div class="item"><div class="content">
       <span class="value value--large lg:value--xlarge">{{ downloads_7d }}</span>
@@ -15,30 +28,36 @@
       <span class="label">Last 30 days</span>
     </div></div></div>
   </div>
+
   <div class="columns">
     <div class="column"><div class="item"><div class="content">
-      <span class="value value--large lg:value--xlarge">{{ currency }} {{ revenue_day }}</span>
+      <span class="value value--small lg:value">{{ currency }} {{ revenue_day }}</span>
       <span class="label">Proceeds today</span>
     </div></div></div>
     <div class="column"><div class="item"><div class="content">
-      <span class="value lg:value--large">{{ currency }} {{ revenue_7d }}</span>
-      <span class="label">7-day proceeds</span>
+      <span class="value value--small lg:value">{{ currency }} {{ revenue_7d }}</span>
+      <span class="label">Last 7 days</span>
     </div></div></div>
     <div class="column"><div class="item"><div class="content">
-      <span class="value lg:value--large">{{ currency }} {{ revenue_30d }}</span>
-      <span class="label">30-day proceeds</span>
+      <span class="value value--small lg:value">{{ currency }} {{ revenue_30d }}</span>
+      <span class="label">Last 30 days</span>
     </div></div></div>
   </div>
-  {% if apps and apps.size > 0 %}
+
+  {% if apps and apps.size > 1 %}
   <div class="columns"><div class="column">
     {% for app in apps %}
-    <div class="item"><div class="meta"></div><div class="content">
-      <span class="title title--small">{{ app.name }}</span>
-      <span class="description">{{ app.downloads_30d }} dl &middot; 30d&nbsp;&nbsp;&middot;&nbsp;&nbsp;{{ currency }} {{ app.revenue_30d }}{% if app.ratings_count > 0 %}&nbsp;&nbsp;&middot;&nbsp;&nbsp;&#9733; {{ app.rating }} ({{ app.ratings_count }}){% endif %}</span>
-    </div></div>
+    <div class="item" style="align-items: center;">
+      {% if app.icon != blank %}<img class="image image-dither" src="{{ app.icon }}" style="width: 36px; height: 36px; border-radius: 9px; flex-shrink: 0;" />{% endif %}
+      <div class="content">
+        <span class="title title--small">{{ app.name }}</span>
+        <span class="description">{{ app.downloads_30d }} dl &middot; 30d&nbsp;&nbsp;&middot;&nbsp;&nbsp;{{ currency }} {{ app.revenue_30d }}{% if app.ratings_count > 0 %}&nbsp;&nbsp;&middot;&nbsp;&nbsp;&#9733; {{ app.rating }}{% endif %}</span>
+      </div>
+    </div>
     {% endfor %}
   </div></div>
   {% endif %}
+
 </div>
 {% else %}
 <div class="layout layout--col layout--center">

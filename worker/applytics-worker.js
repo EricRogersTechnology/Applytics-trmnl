@@ -10,6 +10,7 @@
 const ASC = 'https://api.appstoreconnect.apple.com/v1/salesReports';
 const EMPTY = {
   has_data: false, updated_at: 'No data yet',
+  app_name: '', app_icon: '', app_rating: '-', app_ratings_count: 0,
   downloads_day: 0, downloads_7d: 0, downloads_30d: 0,
   revenue_day: '0.00', revenue_7d: '0.00', revenue_30d: '0.00',
   currency: 'USD', apps: [],
@@ -148,20 +149,30 @@ async function fetchAppStore(cfg) {
   for (let i = 0; i < 30; i++) { const dd = ymd(end - i * day); const a = byDate[dd]; if (!a) continue;
     for (const [id, info] of Object.entries(a.apps)) { at[id] = at[id] || { name: info.name, downloads: 0, revenue: 0 }; if (info.name) at[id].name = info.name; at[id].downloads += info.downloads; at[id].revenue += info.revenue; } }
   const ranked = Object.entries(at).sort((a, b) => b[1].downloads - a[1].downloads).slice(0, 6);
-  const ratings = {};
+  const meta = {};
   await Promise.all(ranked.map(async ([id]) => {
     try {
       const j = await (await fetch(`https://itunes.apple.com/lookup?id=${id}&country=us`)).json();
       if (j.resultCount) { const x = j.results[0];
-        ratings[id] = { r: (x.averageUserRating != null) ? Number(x.averageUserRating).toFixed(1) : "-", c: x.userRatingCount || 0 }; }
+        meta[id] = {
+          r: (x.averageUserRating != null) ? Number(x.averageUserRating).toFixed(1) : "-",
+          c: x.userRatingCount || 0,
+          icon: x.artworkUrl512 || x.artworkUrl100 || "",
+          name: (x.trackName || "").trim(),
+        }; }
     } catch (e) {}
   }));
   const apps = ranked.map(([id, a]) => ({
-    name: a.name, downloads_30d: a.downloads, revenue_30d: money(a.revenue),
-    rating: (ratings[id] && ratings[id].r) || "-", ratings_count: (ratings[id] && ratings[id].c) || 0,
+    name: (meta[id] && meta[id].name) || a.name,
+    icon: (meta[id] && meta[id].icon) || "",
+    downloads_30d: a.downloads, revenue_30d: money(a.revenue),
+    rating: (meta[id] && meta[id].r) || "-", ratings_count: (meta[id] && meta[id].c) || 0,
   }));
+  const primary = apps[0] || { name: "", icon: "", rating: "-", ratings_count: 0 };
   return {
     has_data: true, updated_at: latest,
+    app_name: primary.name, app_icon: primary.icon,
+    app_rating: primary.rating, app_ratings_count: primary.ratings_count,
     downloads_day: t.dl, downloads_7d: w7.dl, downloads_30d: w30.dl,
     revenue_day: money(t.rev), revenue_7d: money(w7.rev), revenue_30d: money(w30.rev),
     currency: byDate[latest].currency || 'USD', apps,

@@ -1,10 +1,14 @@
 {% comment %} Half horizontal (800x240 / 1040x390). {% endcomment %}
 {% if has_data %}
-<div class="layout layout--col">
+<div class="layout layout--col gap--small">
+  <div class="flex flex--row" style="align-items: center; gap: 12px;">
+    {% if app_icon != blank %}<img class="image image-dither" src="{{ app_icon }}" style="width: 40px; height: 40px; border-radius: 10px; flex-shrink: 0;" />{% endif %}
+    <span class="title" style="font-size: 21px; line-height: 1;">{{ app_name }}</span>
+  </div>
   <div class="columns lg:gap--large portrait:gap--small">
     <div class="column"><div class="item"><div class="content">
-      <span class="value value--xlarge lg:value--xxlarge">{{ downloads_day }}</span>
-      <span class="label">Downloads &middot; {{ updated_at }}</span>
+      <span class="value value--large lg:value--xlarge">{{ downloads_day }}</span>
+      <span class="label">Today</span>
     </div></div></div>
     <div class="column"><div class="item"><div class="content">
       <span class="value value--large lg:value--xlarge">{{ downloads_7d }}</span>

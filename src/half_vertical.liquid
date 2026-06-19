@@ -1,9 +1,13 @@
 {% comment %} Half vertical (400x480 / 520x780). {% endcomment %}
 {% if has_data %}
 <div class="layout layout--col gap--medium lg:gap--large portrait:gap--large">
+  <div class="flex flex--row" style="align-items: center; gap: 14px;">
+    {% if app_icon != blank %}<img class="image image-dither" src="{{ app_icon }}" style="width: 58px; height: 58px; border-radius: 13px; flex-shrink: 0;" />{% endif %}
+    <span class="title" style="font-size: 25px; line-height: 1.05;">{{ app_name }}</span>
+  </div>
   <div class="item"><div class="content">
-    <span class="value value--xxlarge lg:value--mega">{{ downloads_day }}</span>
-    <span class="label">Downloads &middot; {{ updated_at }}</span>
+    <span class="value value--xlarge lg:value--mega">{{ downloads_day }}</span>
+    <span class="label">Downloads today</span>
   </div></div>
   <div class="item"><div class="content">
     <span class="value value--large lg:value--xlarge">{{ downloads_7d }}</span>
@@ -14,7 +18,7 @@
     <span class="label">Last 30 days</span>
   </div></div>
   <div class="item"><div class="content">
-    <span class="value lg:value--large">{{ currency }} {{ revenue_30d }}</span>
+    <span class="value value--small lg:value">{{ currency }} {{ revenue_30d }}</span>
     <span class="label">Proceeds &middot; 30d</span>
   </div></div>
 </div>
