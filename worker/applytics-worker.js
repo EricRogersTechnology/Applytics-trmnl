@@ -56,6 +56,7 @@ async function readConfig(request) {
     private_key: String(pick('private_key', 'asc_private_key') || '').replace(/\\n/g, '\n').trim(),
     vendor_number: pick('vendor_number', 'asc_vendor_number'),
     app_store_url: pick('app_store_url', 'asc_app_url') || '',
+    app_icon_url: pick('app_icon_url', 'icon') || '',
   };
 }
 
@@ -125,10 +126,26 @@ function aggregate(rows, appFilter) {
 const money = (n) => n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const ymd = (ms) => new Date(ms).toISOString().slice(0, 10);
 
+// iTunes app metadata (icon + rating). Apple rate-limits this from datacenter
+// IPs and may return 403; the icon then falls back to the optional app_icon_url
+// form field. Looked up "cold" (before the Sales calls) to improve odds.
+async function lookupITunes(id) {
+  for (let i = 0; i < 3; i++) {
+    try {
+      const r = await fetch(`https://itunes.apple.com/lookup?id=${id}&country=us`, {
+        headers: { 'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.1 Safari/605.1.15', 'Accept': 'application/json' },
+      });
+      if (r.ok) { const j = await r.json(); return (j.results && j.results[0]) || null; }
+    } catch (e) {}
+  }
+  return null;
+}
+
 async function fetchAppStore(cfg) {
   const token = await signToken(cfg.key_id, cfg.issuer_id, cfg.private_key);
   let appFilter = null;
   if (cfg.app_store_url) { const m = String(cfg.app_store_url).match(/id(\d+)/); if (m) appFilter = m[1]; }
+  const primaryMeta = appFilter ? await lookupITunes(appFilter) : null;
   const day = 86400000, today = Date.now();
   const dates = []; for (let o = 1; o <= 32; o++) dates.push(ymd(today - o * day));
   const results = await Promise.all(dates.map(async (d) => {
@@ -151,16 +168,15 @@ async function fetchAppStore(cfg) {
   const ranked = Object.entries(at).sort((a, b) => b[1].downloads - a[1].downloads).slice(0, 6);
   const meta = {};
   await Promise.all(ranked.map(async ([id]) => {
-    try {
-      const j = await (await fetch(`https://itunes.apple.com/lookup?id=${id}&country=us`)).json();
-      if (j.resultCount) { const x = j.results[0];
-        meta[id] = {
-          r: (x.averageUserRating != null) ? Number(x.averageUserRating).toFixed(1) : "-",
-          c: x.userRatingCount || 0,
-          icon: x.artworkUrl512 || x.artworkUrl100 || "",
-          name: (x.trackName || "").trim(),
-        }; }
-    } catch (e) {}
+    const x = (appFilter && id === appFilter) ? primaryMeta : await lookupITunes(id);
+    if (x) {
+      meta[id] = {
+        r: (x.averageUserRating != null) ? Number(x.averageUserRating).toFixed(1) : "-",
+        c: x.userRatingCount || 0,
+        icon: x.artworkUrl512 || x.artworkUrl100 || "",
+        name: (x.trackName || "").trim(),
+      };
+    }
   }));
   const apps = ranked.map(([id, a]) => ({
     name: (meta[id] && meta[id].name) || a.name,
@@ -171,7 +187,7 @@ async function fetchAppStore(cfg) {
   const primary = apps[0] || { name: "", icon: "", rating: "-", ratings_count: 0 };
   return {
     has_data: true, updated_at: latest,
-    app_name: primary.name, app_icon: primary.icon,
+    app_name: primary.name, app_icon: cfg.app_icon_url || primary.icon,
     app_rating: primary.rating, app_ratings_count: primary.ratings_count,
     downloads_day: t.dl, downloads_7d: w7.dl, downloads_30d: w30.dl,
     revenue_day: money(t.rev), revenue_7d: money(w7.rev), revenue_30d: money(w30.rev),
