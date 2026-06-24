@@ -2,22 +2,23 @@
 {% if has_data %}
 <div class="layout layout--col gap--small">
   <div class="flex flex--row" style="align-items: center; gap: 14px; width: 100%; justify-content: flex-start;">
-    {% if app_icon != blank %}<img class="image image-dither" src="{{ app_icon }}" style="width: 54px; height: 54px; border-radius: 12px; flex-shrink: 0;" />{% endif %}
-    <span class="title" style="font-size: 24px; line-height: 1;">{{ app_name }}</span>
+    {% if app_icon != blank %}<img class="image image-dither rounded" src="{{ app_icon }}" width="52" height="52" />{% endif %}
+    <span class="title title--large lg:title--xlarge">{{ app_name }}</span>
   </div>
-  <div class="columns lg:gap--large portrait:gap--small">
-    <div class="column"><div class="item"><div class="content">
+  <div class="divider"></div>
+  <div class="grid grid--cols-3 portrait:grid--cols-1">
+    <div class="item"><div class="content">
       <span class="value value--large lg:value--xlarge">{{ downloads_day }}</span>
       <span class="label">Today</span>
-    </div></div></div>
-    <div class="column"><div class="item"><div class="content">
+    </div></div>
+    <div class="item"><div class="content">
       <span class="value value--large lg:value--xlarge">{{ downloads_7d }}</span>
       <span class="label">7 days</span>
-    </div></div></div>
-    <div class="column"><div class="item"><div class="content">
+    </div></div>
+    <div class="item"><div class="content">
       <span class="value value--large lg:value--xlarge">{{ downloads_30d }}</span>
       <span class="label">30 days</span>
-    </div></div></div>
+    </div></div>
   </div>
 </div>
 {% else %}

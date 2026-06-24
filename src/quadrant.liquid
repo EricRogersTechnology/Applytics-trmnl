@@ -2,7 +2,7 @@
 {% if has_data %}
 <div class="layout layout--col layout--center lg:gap--small portrait:gap--small">
   <div class="flex flex--row" style="align-items: center; gap: 10px;">
-    {% if app_icon != blank %}<img class="image image-dither" src="{{ app_icon }}" style="width: 44px; height: 44px; border-radius: 10px; flex-shrink: 0;" />{% endif %}
+    {% if app_icon != blank %}<img class="image image-dither rounded" src="{{ app_icon }}" width="44" height="44" />{% endif %}
     <span class="title title--small">{{ app_name }}</span>
   </div>
   <span class="value value--xlarge lg:value--xxlarge">{{ downloads_day }}</span>
